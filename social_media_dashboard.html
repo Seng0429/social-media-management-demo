@@ -1,0 +1,420 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+:root {
+  --nav-h: 52px;
+  --sidebar-w: 200px;
+  --accent: #7F77DD;
+  --accent-light: #EEEDFE;
+  --accent-dark: #3C3489;
+}
+.app { display: flex; flex-direction: column; min-height: 700px; background: var(--color-background-tertiary); }
+.topbar { height: var(--nav-h); background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; padding: 0 20px; gap: 12px; position: sticky; top: 0; z-index: 10; }
+.topbar-logo { font-size: 15px; font-weight: 500; color: var(--color-text-primary); display: flex; align-items: center; gap: 8px; }
+.topbar-logo .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.topbar-nav { display: flex; gap: 4px; margin-left: 24px; }
+.nav-btn { padding: 6px 14px; border-radius: var(--border-radius-md); border: none; background: transparent; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.nav-btn.active { background: var(--accent-light); color: var(--accent-dark); font-weight: 500; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: #fff; }
+.main { flex: 1; padding: 24px 28px; }
+.page { display: none; }
+.page.active { display: block; }
+
+.section-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.section-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px; }
+
+.sync-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.platform-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; cursor: pointer; transition: all 0.2s; }
+.platform-card:hover { border-color: var(--color-border-secondary); }
+.platform-card.synced { border-color: #639922; }
+.platform-card .plat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.plat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.plat-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.plat-handle { font-size: 12px; color: var(--color-text-secondary); }
+.plat-stats { display: flex; gap: 16px; }
+.stat-item { }
+.stat-num { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+.stat-label { font-size: 11px; color: var(--color-text-secondary); }
+.sync-status { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid var(--color-border-tertiary); }
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; }
+.sync-dot.green { background: #639922; }
+.sync-dot.gray { background: var(--color-text-secondary); }
+.sync-btn { background: var(--accent); color: white; border: none; border-radius: var(--border-radius-md); padding: 5px 14px; font-size: 12px; cursor: pointer; margin-left: auto; }
+.sync-btn:hover { background: var(--accent-dark); }
+.sync-btn.syncing { background: #888780; cursor: not-allowed; }
+
+.feed-row { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 16px; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.feed-plat-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.feed-content { flex: 1; }
+.feed-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+.feed-meta { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+.feed-engagements { display: flex; gap: 12px; margin-top: 6px; }
+.eng-item { font-size: 11px; color: var(--color-text-secondary); }
+
+.compose-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 20px; max-width: 680px; margin-bottom: 24px; }
+.compose-card textarea { width: 100%; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; font-size: 14px; font-family: var(--font-sans); color: var(--color-text-primary); background: var(--color-background-secondary); resize: none; outline: none; min-height: 100px; line-height: 1.6; }
+.compose-card textarea:focus { border-color: var(--accent); }
+.platform-select { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.plat-toggle { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 12px; cursor: pointer; background: var(--color-background-secondary); color: var(--color-text-secondary); user-select: none; transition: all 0.15s; }
+.plat-toggle.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent-dark); }
+.plat-toggle-dot { width: 8px; height: 8px; border-radius: 50%; }
+.compose-footer { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.char-count { font-size: 12px; color: var(--color-text-secondary); }
+.submit-btn { background: var(--accent); color: white; border: none; border-radius: var(--border-radius-md); padding: 8px 20px; font-size: 13px; font-weight: 500; cursor: pointer; margin-left: auto; }
+.submit-btn:hover { background: var(--accent-dark); }
+.submit-btn:disabled { background: #B4B2A9; cursor: not-allowed; }
+
+.queue-list { max-width: 680px; }
+.queue-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; }
+.queue-item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.queue-item-header .plats { display: flex; gap: 4px; flex: 1; }
+.status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
+.status-badge.pending { background: #FAEEDA; color: #854F0B; }
+.status-badge.approved { background: #EAF3DE; color: #3B6D11; }
+.status-badge.rejected { background: #FCEBEB; color: #A32D2D; }
+.status-badge.posted { background: #EEEDFE; color: #3C3489; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.queue-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; margin-bottom: 10px; }
+.queue-meta { font-size: 11px; color: var(--color-text-secondary); }
+.queue-actions { display: flex; gap: 8px; margin-top: 12px; }
+.action-btn { padding: 6px 14px; font-size: 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); color: var(--color-text-secondary); cursor: pointer; }
+.action-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.action-btn.primary:hover { background: var(--accent-dark); }
+.action-btn.success-btn { background: #EAF3DE; color: #3B6D11; border-color: #C0DD97; }
+.action-btn.success-btn:hover { background: #C0DD97; }
+
+.history-list { max-width: 680px; }
+.history-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 8px; display: flex; gap: 14px; align-items: flex-start; }
+.history-status-col { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 2px; }
+.history-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.history-content { flex: 1; }
+.history-text { font-size: 13px; color: var(--color-text-primary); margin-bottom: 6px; line-height: 1.5; }
+.history-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.history-plats { display: flex; gap: 4px; }
+.history-date { font-size: 11px; color: var(--color-text-secondary); }
+
+.plat-pill { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); }
+
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 14px 20px; font-size: 13px; color: var(--color-text-primary); box-shadow: 0 4px 24px rgba(0,0,0,0.08); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 100; display: flex; align-items: center; gap: 10px; max-width: 320px; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { font-size: 16px; }
+.empty-state { text-align: center; padding: 48px 0; color: var(--color-text-secondary); font-size: 14px; }
+</style>
+
+<div class="app">
+  <div class="topbar">
+    <div class="topbar-logo"><div class="dot"></div>SocialHub</div>
+    <nav class="topbar-nav">
+      <button class="nav-btn active" onclick="showPage('sync')">Sync & Feed</button>
+      <button class="nav-btn" onclick="showPage('compose')">New Post</button>
+      <button class="nav-btn" onclick="showPage('queue')">Approval Queue</button>
+      <button class="nav-btn" onclick="showPage('history')">History</button>
+    </nav>
+    <div class="topbar-right">
+      <div style="font-size:12px;color:var(--color-text-secondary);">Marketing Team</div>
+      <div class="avatar">MT</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- SYNC PAGE -->
+    <div class="page active" id="page-sync">
+      <div class="section-title">Connected platforms</div>
+      <div class="section-sub">Sync data from your social media accounts to pull in recent engagement and analytics.</div>
+      <div class="sync-grid" id="sync-grid"></div>
+      <div class="section-title" style="margin-top:8px;">Recent feed</div>
+      <div class="section-sub">Latest posts across your connected platforms.</div>
+      <div id="feed-list"></div>
+    </div>
+
+    <!-- COMPOSE PAGE -->
+    <div class="page" id="page-compose">
+      <div class="section-title">New post</div>
+      <div class="section-sub">Write your content, select platforms, and submit for management approval.</div>
+      <div class="compose-card">
+        <textarea id="post-text" placeholder="What's the message?" oninput="updateCharCount()"></textarea>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin:4px 2px;">Select platforms to post on</div>
+        <div class="platform-select" id="platform-toggles"></div>
+        <div class="compose-footer">
+          <span class="char-count" id="char-count">0 / 280</span>
+          <button class="submit-btn" id="submit-btn" onclick="submitPost()">Send for approval</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUEUE PAGE -->
+    <div class="page" id="page-queue">
+      <div class="section-title">Approval queue</div>
+      <div class="section-sub">Posts awaiting or returned from management review. Once approved, hit "Mark as posted" to confirm publishing.</div>
+      <div class="queue-list" id="queue-list"></div>
+    </div>
+
+    <!-- HISTORY PAGE -->
+    <div class="page" id="page-history">
+      <div class="section-title">Post history</div>
+      <div class="section-sub">All submitted posts and their final statuses.</div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toast-icon">✓</span><span id="toast-msg"></span></div>
+
+<script>
+const PLATFORMS = [
+  { id: 'instagram', name: 'Instagram', color: '#E4405F', bg: '#FFF0F3', handle: '@brandstudio', followers: '24.1K', posts: 382, synced: true, dot: '#E4405F' },
+  { id: 'twitter', name: 'X / Twitter', color: '#000', bg: '#F0F0F0', handle: '@brandstudio_x', followers: '11.8K', posts: 1204, synced: true, dot: '#444' },
+  { id: 'linkedin', name: 'LinkedIn', color: '#0A66C2', bg: '#E8F1FB', handle: 'Brand Studio Inc.', followers: '8.3K', posts: 97, synced: false, dot: '#0A66C2' },
+  { id: 'facebook', name: 'Facebook', color: '#1877F2', bg: '#E7F0FE', handle: 'Brand Studio Page', followers: '31.2K', posts: 540, synced: true, dot: '#1877F2' },
+  { id: 'tiktok', name: 'TikTok', color: '#010101', bg: '#F2F2F2', handle: '@brandstudio_tt', followers: '52K', posts: 211, synced: false, dot: '#555' },
+];
+
+const FEED_MOCK = [
+  { platform: 'instagram', text: 'Behind the scenes of our latest product shoot. The team worked incredibly hard on this one!', time: '2h ago', likes: 312, comments: 28 },
+  { platform: 'twitter', text: 'Excited to announce our new partnership with a leading retail chain — more details coming soon.', time: '5h ago', likes: 89, comments: 14 },
+  { platform: 'facebook', text: 'This weekend only: 20% off on all premium bundles. Use code WEEKEND20 at checkout.', time: '1d ago', likes: 204, comments: 47 },
+  { platform: 'instagram', text: 'Our Q2 campaign just wrapped — and the results are beyond what we expected. Thank you!', time: '2d ago', likes: 567, comments: 63 },
+  { platform: 'twitter', text: 'We are hiring! Looking for a creative content strategist to join the team. DMs open.', time: '3d ago', likes: 41, comments: 9 },
+];
+
+const posts = [
+  { id: 1, text: 'Spring collection is LIVE! Shop the freshest styles of the season — link in bio.', platforms: ['instagram', 'facebook'], status: 'approved', submitted: '2025-04-01 09:12', approvedAt: '2025-04-01 11:30', approver: 'Sarah K.', posted: false },
+  { id: 2, text: 'We are proud to support Earth Day 2025. Here is how our team is making an impact this year.', platforms: ['linkedin', 'twitter'], status: 'pending', submitted: '2025-04-03 14:05', approver: null, posted: false },
+  { id: 3, text: 'Big news dropping tomorrow. Stay tuned — you do not want to miss this.', platforms: ['twitter', 'instagram', 'facebook'], status: 'pending', submitted: '2025-04-03 16:44', approver: null, posted: false },
+];
+
+const history = [
+  { id: 10, text: 'Our latest podcast episode is out — hear from industry leaders on brand storytelling.', platforms: ['linkedin', 'twitter'], status: 'posted', submitted: '2025-03-28', postedAt: '2025-03-29' },
+  { id: 11, text: 'Happy International Women\'s Day to all the amazing women in our community!', platforms: ['instagram', 'facebook', 'twitter'], status: 'posted', submitted: '2025-03-07', postedAt: '2025-03-08' },
+  { id: 12, text: 'Test post for internal QA — please ignore.', platforms: ['twitter'], status: 'rejected', submitted: '2025-03-20', rejectedAt: '2025-03-20' },
+];
+
+let syncingId = null;
+
+function getPlatform(id) { return PLATFORMS.find(p => p.id === id); }
+
+function renderSyncGrid() {
+  const grid = document.getElementById('sync-grid');
+  grid.innerHTML = PLATFORMS.map(p => `
+    <div class="platform-card${p.synced ? ' synced' : ''}" id="pcard-${p.id}">
+      <div class="plat-header">
+        <div class="plat-icon" style="background:${p.bg}; font-size:18px;">${getPlatEmoji(p.id)}</div>
+        <div>
+          <div class="plat-name">${p.name}</div>
+          <div class="plat-handle">${p.handle}</div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="stat-item"><div class="stat-num">${p.followers}</div><div class="stat-label">Followers</div></div>
+        <div class="stat-item"><div class="stat-num">${p.posts}</div><div class="stat-label">Posts</div></div>
+      </div>
+      <div class="sync-status">
+        <div class="sync-dot ${p.synced ? 'green' : 'gray'}"></div>
+        <span style="font-size:12px;color:var(--color-text-secondary)">${p.synced ? 'Synced' : 'Not connected'}</span>
+        <button class="sync-btn${syncingId===p.id?' syncing':''}" id="sbtn-${p.id}" onclick="syncPlatform('${p.id}')">${p.synced ? 'Re-sync' : 'Connect'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getPlatEmoji(id) {
+  return { instagram: '📷', twitter: '✦', linkedin: '💼', facebook: '📘', tiktok: '🎵' }[id] || '📱';
+}
+
+function syncPlatform(id) {
+  if (syncingId) return;
+  syncingId = id;
+  const btn = document.getElementById(`sbtn-${id}`);
+  btn.textContent = 'Syncing...';
+  btn.classList.add('syncing');
+  setTimeout(() => {
+    const p = PLATFORMS.find(x => x.id === id);
+    p.synced = true;
+    syncingId = null;
+    renderSyncGrid();
+    renderFeed();
+    showToast('✓', `${p.name} synced successfully`);
+  }, 1800);
+}
+
+function renderFeed() {
+  const list = document.getElementById('feed-list');
+  const syncedIds = PLATFORMS.filter(p => p.synced).map(p => p.id);
+  const visible = FEED_MOCK.filter(f => syncedIds.includes(f.platform));
+  list.innerHTML = visible.map(f => {
+    const p = getPlatform(f.platform);
+    return `<div class="feed-row">
+      <div class="feed-plat-dot" style="background:${p.dot}"></div>
+      <div class="feed-content">
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px;font-weight:500;">${p.name} · ${f.time}</div>
+        <div class="feed-text">${f.text}</div>
+        <div class="feed-engagements">
+          <span class="eng-item">♡ ${f.likes}</span>
+          <span class="eng-item">💬 ${f.comments}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty-state">No feed data. Connect a platform to see posts.</div>';
+}
+
+function renderPlatformToggles() {
+  const syncedPlatforms = PLATFORMS.filter(p => p.synced);
+  const el = document.getElementById('platform-toggles');
+  el.innerHTML = syncedPlatforms.map(p => `
+    <div class="plat-toggle" id="toggle-${p.id}" onclick="togglePlatform('${p.id}')">
+      <div class="plat-toggle-dot" style="background:${p.dot}"></div>${p.name}
+    </div>
+  `).join('');
+}
+
+const selectedPlatforms = new Set();
+function togglePlatform(id) {
+  if (selectedPlatforms.has(id)) selectedPlatforms.delete(id);
+  else selectedPlatforms.add(id);
+  document.getElementById(`toggle-${id}`).classList.toggle('selected', selectedPlatforms.has(id));
+}
+
+function updateCharCount() {
+  const v = document.getElementById('post-text').value.length;
+  document.getElementById('char-count').textContent = `${v} / 280`;
+}
+
+function submitPost() {
+  const text = document.getElementById('post-text').value.trim();
+  if (!text) { showToast('!', 'Please write some content first.'); return; }
+  if (selectedPlatforms.size === 0) { showToast('!', 'Select at least one platform.'); return; }
+  const newPost = {
+    id: Date.now(),
+    text,
+    platforms: [...selectedPlatforms],
+    status: 'pending',
+    submitted: new Date().toLocaleString(),
+    approver: null,
+    posted: false,
+  };
+  posts.unshift(newPost);
+  document.getElementById('post-text').value = '';
+  selectedPlatforms.clear();
+  document.querySelectorAll('.plat-toggle').forEach(t => t.classList.remove('selected'));
+  updateCharCount();
+  showToast('✓', 'Post sent for approval. Management will review shortly.');
+  setTimeout(() => showPage('queue'), 1200);
+}
+
+function renderQueue() {
+  const el = document.getElementById('queue-list');
+  if (posts.length === 0) { el.innerHTML = '<div class="empty-state">No posts in the queue yet.</div>'; return; }
+  el.innerHTML = posts.map(p => {
+    const plats = p.platforms.map(id => {
+      const pl = getPlatform(id);
+      return pl ? `<span class="plat-pill">${pl.name}</span>` : '';
+    }).join('');
+    let badgeHtml = '';
+    let actionsHtml = '';
+    if (p.status === 'pending') {
+      badgeHtml = `<span class="status-badge pending"><span class="status-dot"></span>Sent for approval</span>`;
+      actionsHtml = `<div class="queue-actions"><button class="action-btn" disabled style="cursor:default;">Awaiting management review...</button></div>`;
+    } else if (p.status === 'approved' && !p.posted) {
+      badgeHtml = `<span class="status-badge approved"><span class="status-dot"></span>Approved by management</span>`;
+      actionsHtml = `<div class="queue-actions"><button class="action-btn success-btn" onclick="markPosted(${p.id})">Mark as posted</button><span style="font-size:11px;color:var(--color-text-secondary);line-height:1.4;max-width:300px;">Approved by ${p.approver} · ${p.approvedAt}</span></div>`;
+    } else if (p.status === 'rejected') {
+      badgeHtml = `<span class="status-badge rejected"><span class="status-dot"></span>Rejected</span>`;
+      actionsHtml = `<div class="queue-actions"><span style="font-size:12px;color:var(--color-text-secondary);">This post was not approved. Edit and resubmit if needed.</span></div>`;
+    }
+    return `<div class="queue-item" id="qi-${p.id}">
+      <div class="queue-item-header">
+        <div class="plats">${plats}</div>
+        ${badgeHtml}
+      </div>
+      <div class="queue-text">${p.text}</div>
+      <div class="queue-meta">Submitted · ${p.submitted}</div>
+      ${actionsHtml}
+    </div>`;
+  }).join('');
+}
+
+function markPosted(id) {
+  const idx = posts.findIndex(p => p.id === id);
+  if (idx === -1) return;
+  const p = posts[idx];
+  p.posted = true;
+  p.status = 'posted';
+  history.unshift({
+    id: p.id,
+    text: p.text,
+    platforms: p.platforms,
+    status: 'posted',
+    submitted: p.submitted,
+    postedAt: new Date().toLocaleString(),
+  });
+  posts.splice(idx, 1);
+  renderQueue();
+  renderHistory();
+  showToast('✓', 'Post published successfully!');
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  const all = [...history];
+  if (all.length === 0) { el.innerHTML = '<div class="empty-state">No post history yet.</div>'; return; }
+  el.innerHTML = all.map(h => {
+    const plats = h.platforms.map(id => {
+      const pl = getPlatform(id);
+      return pl ? `<span class="plat-pill">${pl.name}</span>` : '';
+    }).join('');
+    const iconStyle = h.status === 'posted'
+      ? 'background:#EAF3DE;color:#3B6D11;'
+      : 'background:#FCEBEB;color:#A32D2D;';
+    const icon = h.status === 'posted' ? '✓' : '✕';
+    const badge = h.status === 'posted'
+      ? `<span class="status-badge posted"><span class="status-dot"></span>Posted</span>`
+      : `<span class="status-badge rejected"><span class="status-dot"></span>Rejected</span>`;
+    const meta = h.status === 'posted'
+      ? `Published ${h.postedAt}`
+      : `Rejected · ${h.rejectedAt || h.submitted}`;
+    return `<div class="history-item">
+      <div class="history-status-col">
+        <div class="history-icon" style="${iconStyle}">${icon}</div>
+      </div>
+      <div class="history-content">
+        <div class="history-text">${h.text}</div>
+        <div class="history-row">
+          <div class="history-plats">${plats}</div>
+          ${badge}
+          <span class="history-date">${meta}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    const pages = ['sync', 'compose', 'queue', 'history'];
+    b.classList.toggle('active', pages[i] === id);
+  });
+  if (id === 'compose') renderPlatformToggles();
+  if (id === 'queue') renderQueue();
+  if (id === 'history') renderHistory();
+}
+
+let toastTimer;
+function showToast(icon, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+renderSyncGrid();
+renderFeed();
+renderHistory();
+</script>
