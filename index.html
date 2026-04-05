@@ -22,17 +22,24 @@
   --accent-dark: #3C3489;
 }
 body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
+.app{display:flex;flex-direction:column;min-height:700px}
 
-.app{display:flex;flex-direction:column;min-height:680px}
 .topbar{height:50px;background:var(--color-background-primary);border-bottom:.5px solid var(--color-border-tertiary);display:flex;align-items:center;padding:0 20px;gap:0;position:sticky;top:0;z-index:20}
-.logo{font-size:14px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-right:20px}
+.logo{font-size:14px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-right:16px;flex-shrink:0}
 .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.tabs{display:flex;gap:2px;flex:1}
-.tab{padding:6px 14px;border-radius:var(--border-radius-md);border:none;background:transparent;font-size:13px;color:var(--color-text-secondary);cursor:pointer;position:relative;transition:all .15s}
+
+.nav-group{display:flex;gap:2px;align-items:center}
+.divider{width:.5px;height:20px;background:var(--color-border-tertiary);margin:0 10px;flex-shrink:0}
+.group-label{font-size:10px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.6px;text-transform:uppercase;margin-right:6px;white-space:nowrap}
+
+.tab{padding:6px 13px;border-radius:var(--border-radius-md);border:none;background:transparent;font-size:12.5px;color:var(--color-text-secondary);cursor:pointer;position:relative;transition:all .15s;white-space:nowrap}
 .tab:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
 .tab.active{background:var(--accent-l);color:var(--accent-d);font-weight:500}
-.tab .badge{position:absolute;top:2px;right:4px;background:var(--accent);color:#fff;border-radius:99px;font-size:10px;padding:1px 5px;font-weight:500;min-width:16px;text-align:center}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tab.mgmt.active{background:var(--amber-bg);color:var(--amber-t)}
+.tab .badge{position:absolute;top:2px;right:3px;background:var(--accent);color:#fff;border-radius:99px;font-size:10px;padding:1px 5px;font-weight:500;min-width:16px;text-align:center;line-height:1.4}
+.tab.mgmt .badge{background:var(--amber-t)}
+
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .data-status{font-size:11px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
 .data-dot{width:6px;height:6px;border-radius:50%}
 .data-dot.ready{background:#639922}
@@ -44,105 +51,122 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
 .page{display:none}.page.active{display:block}
 
 /* COMPOSE */
-.compose-wrap{display:grid;grid-template-columns:1fr 280px;gap:16px;max-width:900px}
-.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px}
-.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:12px}
+.compose-wrap{display:grid;grid-template-columns:1fr 272px;gap:14px;max-width:880px}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px}
+.card-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:11px}
 
-.platform-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.plat-chip{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);font-size:12px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);user-select:none;transition:all .15s}
+.platform-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.plat-chip{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);font-size:12px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);user-select:none;transition:all .15s}
 .plat-chip:hover{border-color:var(--color-border-secondary)}
 .plat-chip.on{background:var(--accent-l);border-color:var(--accent);color:var(--accent-d)}
 .plat-chip .pdot{width:7px;height:7px;border-radius:50%}
 
-.compose-box{position:relative}
-.compose-box textarea{width:100%;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:transparent;resize:none;outline:none;min-height:120px;line-height:1.6}
-.compose-box textarea:focus{border-color:var(--accent)}
-.compose-footer{display:flex;align-items:center;gap:10px;margin-top:10px}
+textarea{width:100%;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:11px;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:transparent;resize:none;outline:none;min-height:110px;line-height:1.6}
+textarea:focus{border-color:var(--accent)}
+.compose-footer{display:flex;align-items:center;gap:10px;margin-top:9px}
 .char-c{font-size:12px;color:var(--color-text-secondary)}
-.char-c.warn{color:#854F0B}
-.send-btn{margin-left:auto;background:var(--accent);color:#fff;border:none;border-radius:var(--border-radius-md);padding:8px 20px;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
+.char-c.warn{color:var(--amber-t)}
+.send-btn{margin-left:auto;background:var(--accent);color:#fff;border:none;border-radius:var(--border-radius-md);padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
 .send-btn:hover{background:var(--accent-d)}
-.send-btn:disabled{background:#B4B2A9;cursor:not-allowed}
 
-/* TEMPLATES */
-.tpl-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.tpl-item{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;cursor:pointer;transition:all .15s}
+.tpl-item{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 11px;cursor:pointer;transition:all .15s;margin-bottom:7px}
 .tpl-item:hover{border-color:var(--accent);background:var(--accent-l)}
-.tpl-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.tpl-label{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .tpl-preview{font-size:12px;color:var(--color-text-primary);line-height:1.4}
 .tpl-item:hover .tpl-preview{color:var(--accent-d)}
-
 .quick-tags{display:flex;flex-wrap:wrap;gap:5px}
 .qtag{font-size:11px;padding:3px 9px;border-radius:99px;border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
 .qtag:hover{background:var(--accent-l);color:var(--accent-d);border-color:var(--accent)}
 
 /* QUEUE */
 .queue-wrap{max-width:680px}
-.seg-bar{display:flex;gap:4px;margin-bottom:16px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:3px;width:fit-content}
-.seg{padding:5px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.seg-bar{display:flex;gap:3px;margin-bottom:14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:3px;width:fit-content}
+.seg{padding:5px 13px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
 .seg.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500;border:.5px solid var(--color-border-tertiary)}
 
-.post-card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:8px}
-.post-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+/* SHARED POST CARD */
+.post-card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:8px;transition:border-color .2s}
+.post-card-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .plats-row{display:flex;gap:4px;flex:1;flex-wrap:wrap}
-.plat-pill{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:4px}
+.plat-pill{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:4px;white-space:nowrap}
 .pp-dot{width:5px;height:5px;border-radius:50%}
 .sbadge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;white-space:nowrap}
 .sbadge.pending{background:var(--amber-bg);color:var(--amber-t)}
 .sbadge.approved{background:var(--green-bg);color:var(--green-t)}
 .sbadge.rejected{background:var(--red-bg);color:var(--red-t)}
+.sbadge.posted{background:var(--accent-l);color:var(--accent-d)}
 .sbadge .sd{width:5px;height:5px;border-radius:50%;background:currentColor}
-.post-text{font-size:13px;color:var(--color-text-primary);line-height:1.55;margin-bottom:8px}
-.post-meta{font-size:11px;color:var(--color-text-secondary)}
-.post-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:.5px solid var(--color-border-tertiary)}
-.act-btn{padding:6px 14px;font-size:12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.post-text{font-size:13px;color:var(--color-text-primary);line-height:1.55;margin-bottom:7px}
+.post-meta{font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+.post-actions{display:flex;gap:7px;margin-top:10px;padding-top:10px;border-top:.5px solid var(--color-border-tertiary);align-items:center;flex-wrap:wrap}
+.act-btn{padding:6px 14px;font-size:12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s;font-weight:500}
 .act-btn:hover{border-color:var(--color-border-secondary);color:var(--color-text-primary)}
-.act-btn.go{background:var(--green-bg);color:var(--green-t);border-color:var(--green-b);font-weight:500}
-.act-btn.go:hover{background:#C0DD97}
-.act-btn.warn{background:var(--red-bg);color:var(--red-t);border-color:#F7C1C1}
+.act-btn.approve{background:var(--green-bg);color:var(--green-t);border-color:var(--green-b)}
+.act-btn.approve:hover{background:var(--green-b)}
+.act-btn.reject{background:var(--red-bg);color:var(--red-t);border-color:var(--red-b)}
+.act-btn.reject:hover{background:var(--red-b)}
+.act-btn.post{background:var(--accent);color:#fff;border-color:var(--accent)}
+.act-btn.post:hover{background:var(--accent-d)}
+.act-note{font-size:11px;color:var(--color-text-secondary);flex:1}
 
 /* HISTORY */
-.history-wrap{max-width:720px}
-.hist-controls{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.filter-sel{font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;cursor:pointer}
-.search-box{flex:1;max-width:240px;font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+.history-wrap{max-width:700px}
+.hist-controls{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.filter-sel{font-size:12px;padding:5px 9px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;cursor:pointer}
+.search-box{flex:1;max-width:220px;font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
 .search-box:focus{border-color:var(--accent)}
 .rec-count{font-size:12px;color:var(--color-text-secondary);margin-left:auto}
 
-.hist-item{display:flex;gap:12px;padding:12px 14px;background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:6px;align-items:flex-start}
+.hist-item{display:flex;gap:11px;padding:12px 14px;background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:6px;align-items:flex-start}
 .hist-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}
-.hist-icon.posted{background:var(--green-bg);color:var(--green-t)}
+.hist-icon.posted{background:var(--accent-l);color:var(--accent-d)}
+.hist-icon.approved{background:var(--green-bg);color:var(--green-t)}
 .hist-icon.rejected{background:var(--red-bg);color:var(--red-t)}
 .hist-body{flex:1;min-width:0}
 .hist-text{font-size:13px;color:var(--color-text-primary);line-height:1.5;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hist-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hist-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .hist-date{font-size:11px;color:var(--color-text-secondary)}
 
-.load-more{display:block;width:100%;padding:9px;background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);cursor:pointer;text-align:center;margin-top:8px;transition:all .15s}
+.load-more{display:block;width:100%;padding:8px;background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);cursor:pointer;text-align:center;margin-top:6px;transition:all .15s}
 .load-more:hover{background:var(--color-background-primary);color:var(--color-text-primary)}
 
 .empty{text-align:center;padding:48px 0;color:var(--color-text-secondary);font-size:13px}
+.info-box{background:var(--blue-bg);border:.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:9px 13px;font-size:12px;color:var(--blue-t);margin-bottom:12px;line-height:1.5}
 
-.loader{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:80px 0;color:var(--color-text-secondary)}
-.spinner{width:28px;height:28px;border:2px solid var(--color-border-tertiary);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.toast{position:fixed;bottom:20px;right:20px;background:var(--color-background-primary);border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:12px 18px;font-size:13px;color:var(--color-text-primary);transform:translateY(80px);opacity:0;transition:all .25s;z-index:99;display:flex;align-items:center;gap:9px;max-width:300px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--color-background-primary);border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:11px 16px;font-size:13px;color:var(--color-text-primary);transform:translateY(80px);opacity:0;transition:all .25s;z-index:99;display:flex;align-items:center;gap:8px;max-width:300px}
 .toast.show{transform:translateY(0);opacity:1}
 
-.info-box{background:var(--blue-bg);border:.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:10px 14px;font-size:12px;color:var(--blue-t);margin-bottom:14px;line-height:1.5}
+/* Reject modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:50;display:flex;align-items:center;justify-content:center}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:20px;width:360px;border:.5px solid var(--color-border-secondary)}
+.modal-title{font-size:14px;font-weight:500;margin-bottom:6px;color:var(--color-text-primary)}
+.modal-sub{font-size:12px;color:var(--color-text-secondary);margin-bottom:12px}
+.modal textarea{min-height:80px;font-size:13px}
+.modal-btns{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+.modal-btns .act-btn{font-size:12px}
 </style>
 
 <div class="app">
 <div class="topbar">
   <div class="logo"><div class="logo-dot"></div>SocialHub</div>
-  <div class="tabs">
+
+  <div class="nav-group">
+    <span class="group-label">Staff</span>
     <button class="tab active" data-page="compose" onclick="nav('compose')">New post</button>
-    <button class="tab" data-page="queue" onclick="nav('queue')">Queue <span class="badge" id="q-badge" style="display:none"></span></button>
-    <button class="tab" data-page="history" onclick="nav('history')">History</button>
+    <button class="tab" data-page="queue" onclick="nav('queue')">My queue <span class="badge" id="q-badge" style="display:none"></span></button>
+    <button class="tab" data-page="history" onclick="nav('history')">My history</button>
   </div>
+
+  <div class="divider"></div>
+
+  <div class="nav-group">
+    <span class="group-label">Management</span>
+    <button class="tab mgmt" data-page="submissions" onclick="nav('submissions')">Submissions <span class="badge" id="s-badge" style="display:none"></span></button>
+    <button class="tab mgmt" data-page="mgmt-history" onclick="nav('mgmt-history')">Review history</button>
+  </div>
+
   <div class="topbar-right">
-    <div class="data-status" id="data-status"><div class="data-dot loading" id="dstatus-dot"></div><span id="dstatus-txt">Fetching data...</span></div>
+    <div class="data-status"><div class="data-dot loading" id="dstatus-dot"></div><span id="dstatus-txt">Fetching...</span></div>
     <div class="avatar">MT</div>
   </div>
 </div>
@@ -153,22 +177,21 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
   <div class="page active" id="page-compose">
     <div class="compose-wrap">
       <div>
-        <div class="card" style="margin-bottom:12px">
-          <div class="card-title">Post to platforms</div>
+        <div class="card">
+          <div class="card-title">Platforms</div>
           <div class="platform-row" id="plat-row"></div>
-          <div class="compose-box">
-            <textarea id="ptxt" placeholder="Write your post content here..." oninput="onType()"></textarea>
-          </div>
+          <div class="card-title">Content</div>
+          <textarea id="ptxt" placeholder="Write your post content here..." oninput="onType()"></textarea>
           <div class="compose-footer">
             <span class="char-c" id="cc">0 / 280</span>
-            <button class="send-btn" id="send-btn" onclick="submitPost()">Send for approval</button>
+            <button class="send-btn" onclick="submitPost()">Send for approval</button>
           </div>
         </div>
       </div>
       <div>
         <div class="card" style="margin-bottom:12px">
           <div class="card-title">Templates</div>
-          <div class="tpl-list" id="tpl-list"></div>
+          <div id="tpl-list"></div>
         </div>
         <div class="card">
           <div class="card-title">Quick tags</div>
@@ -178,7 +201,7 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
     </div>
   </div>
 
-  <!-- QUEUE -->
+  <!-- MY QUEUE (staff) -->
   <div class="page" id="page-queue">
     <div class="queue-wrap">
       <div class="seg-bar">
@@ -191,25 +214,63 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
     </div>
   </div>
 
-  <!-- HISTORY -->
+  <!-- MY HISTORY (staff — posted only) -->
   <div class="page" id="page-history">
     <div class="history-wrap">
       <div class="hist-controls">
-        <select class="filter-sel" id="hist-filter" onchange="renderHistory()">
-          <option value="all">All statuses</option>
-          <option value="posted">Posted</option>
-          <option value="rejected">Rejected</option>
-        </select>
-        <input class="search-box" id="hist-search" placeholder="Search posts..." oninput="renderHistory()">
+        <input class="search-box" id="hist-search" placeholder="Search posts..." oninput="renderMyHistory()">
         <span class="rec-count" id="hist-count"></span>
       </div>
-      <div class="info-box" id="data-info"></div>
+      <div class="info-box" id="data-info-h"></div>
       <div id="hist-list"></div>
-      <button class="load-more" id="load-more-btn" onclick="loadMore()" style="display:none">Load more</button>
+      <button class="load-more" id="lm-hist" onclick="loadMoreHist()" style="display:none">Load more</button>
+    </div>
+  </div>
+
+  <!-- SUBMISSIONS (management) -->
+  <div class="page" id="page-submissions">
+    <div class="queue-wrap">
+      <div class="seg-bar">
+        <div class="seg active" onclick="setSSeg('pending',this)">Pending review</div>
+        <div class="seg" onclick="setSSeg('approved',this)">Approved</div>
+        <div class="seg" onclick="setSSeg('rejected',this)">Rejected</div>
+      </div>
+      <div id="sub-list"></div>
+    </div>
+  </div>
+
+  <!-- MGMT HISTORY -->
+  <div class="page" id="page-mgmt-history">
+    <div class="history-wrap">
+      <div class="hist-controls">
+        <select class="filter-sel" id="mh-filter" onchange="renderMgmtHistory()">
+          <option value="all">All decisions</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <input class="search-box" id="mh-search" placeholder="Search..." oninput="renderMgmtHistory()">
+        <span class="rec-count" id="mh-count"></span>
+      </div>
+      <div class="info-box" id="data-info-mh"></div>
+      <div id="mh-list"></div>
+      <button class="load-more" id="lm-mh" onclick="loadMoreMH()" style="display:none">Load more</button>
     </div>
   </div>
 
 </div>
+</div>
+
+<!-- Reject reason modal -->
+<div class="modal-bg" id="reject-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-title">Reject this post?</div>
+    <div class="modal-sub">Optionally add a note for the submitter.</div>
+    <textarea id="reject-reason" placeholder="Reason for rejection (optional)..."></textarea>
+    <div class="modal-btns">
+      <button class="act-btn" onclick="closeRejectModal()">Cancel</button>
+      <button class="act-btn reject" onclick="confirmReject()">Confirm reject</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"><span id="t-icon"></span><span id="t-msg"></span></div>
@@ -220,226 +281,243 @@ const PLATFORMS=[
   {id:'twitter',name:'X / Twitter',color:'#444'},
   {id:'linkedin',name:'LinkedIn',color:'#0A66C2'},
   {id:'facebook',name:'Facebook',color:'#1877F2'},
-  {id:'tiktok',name:'TikTok',color:'#010101'},
+  {id:'tiktok',name:'TikTok',color:'#555'},
 ];
 const TEMPLATES=[
   {label:'Campaign CTA',text:'Click here to check out our latest events and join us! 🎉 #AIAWalkWithUs #LifeBetterLived'},
   {label:'Walk event',text:'Lace up and walk with us! Join the #AIAWalkWithUs challenge and take a step toward a healthier you. Register now 👉 [link]'},
   {label:'Community highlight',text:'Together we walk further. 💪 Share your journey using #AIAWalkWithUs and inspire the community!'},
-  {label:'Event reminder',text:'Reminder: Our next wellness walk is this weekend! Don\'t miss it — sign up today and bring a friend. #AIAWalkWithUs'},
+  {label:'Event reminder',text:'Reminder: Our next wellness walk is this weekend! Don\'t miss it — sign up today. #AIAWalkWithUs'},
 ];
 const QUICK_TAGS=['#AIAWalkWithUs','#LifeBetterLived','#WellnessWalk','#MoveMore','[link]','[event date]'];
-
 const PAGE_SIZE=20;
-let queuePosts=[];
-let allHistory=[];
-let visibleHistory=[];
-let histOffset=0;
-let qSeg='all';
-let selectedPlats=new Set();
-let dataReady=false;
 
-function randDate(daysAgo){
-  const d=new Date();d.setDate(d.getDate()-Math.floor(Math.random()*daysAgo));
-  return d.toLocaleString();
-}
+let queuePosts=[];
+let myHistory=[];
+let mgmtHistory=[];
+let selectedPlats=new Set();
+let curQSeg='all';
+let curSSeg='pending';
+let pendingRejectId=null;
+let histPage=0,mhPage=0;
+
+function getPlatform(id){return PLATFORMS.find(p=>p.id===id)}
+
 function randText(){
-  const opts=[
-    'Join us for another exciting wellness walk this season! #AIAWalkWithUs',
-    'Your health is your wealth. Walk with us and build better habits. #LifeBetterLived',
-    'Catch the highlights from last weekend\'s community event — what an amazing turnout!',
-    'Click here to check out our latest events and secure your spot today. #AIAWalkWithUs',
-    'We hit 10,000 steps together! Thank you to our incredible community. #MoveMore',
-    'New milestone unlocked: our walk team just crossed the finish line together! 🏁',
-    'Reminder: registration closes tomorrow. Don\'t miss your chance to join #AIAWalkWithUs!',
-    'Wellness starts with one step. Share yours using #AIAWalkWithUs this month.',
-  ];
+  const opts=['Join us for another exciting wellness walk this season! #AIAWalkWithUs','Your health is your wealth. Walk with us. #LifeBetterLived','Catch the highlights from last weekend\'s community event!','Click here to check our latest events. #AIAWalkWithUs','We hit 10,000 steps together! Thank you community. #MoveMore','New milestone unlocked — our team crossed the finish line! 🏁','Registration closes tomorrow. Don\'t miss #AIAWalkWithUs!','Wellness starts with one step. Share yours #AIAWalkWithUs'];
   return opts[Math.floor(Math.random()*opts.length)];
 }
-function randPlats(){
-  const ids=PLATFORMS.map(p=>p.id);
-  const count=1+Math.floor(Math.random()*3);
-  const shuffled=ids.sort(()=>Math.random()-.5);
-  return shuffled.slice(0,count);
-}
-
-function generateMockHistory(n){
-  const items=[];
-  for(let i=0;i<n;i++){
-    const s=Math.random()<0.85?'posted':'rejected';
-    items.push({
-      id:1000+i,text:randText(),platforms:randPlats(),
-      status:s,submitted:randDate(60),
-      postedAt:s==='posted'?randDate(58):null,
-    });
-  }
-  return items;
-}
+function randPlats(){const ids=PLATFORMS.map(p=>p.id).sort(()=>Math.random()-.5);return ids.slice(0,1+Math.floor(Math.random()*3))}
+function randDate(d){const dt=new Date();dt.setDate(dt.getDate()-Math.floor(Math.random()*d));return dt.toLocaleString()}
 
 function bootData(){
   setTimeout(()=>{
     queuePosts=[
-      {id:1,text:'Spring wellness campaign is LIVE! Join us for daily walks and win amazing prizes. #AIAWalkWithUs #LifeBetterLived',platforms:['instagram','facebook'],status:'approved',submitted:'2025-04-01 09:12',approver:'Sarah K.',approvedAt:'2025-04-01 11:30'},
-      {id:2,text:'Click here to check out our latest events and be part of the movement! 🎉 #AIAWalkWithUs',platforms:['linkedin','twitter'],status:'pending',submitted:'2025-04-03 14:05'},
-      {id:3,text:'Big news dropping tomorrow — you do not want to miss this one. Stay tuned! #AIAWalkWithUs',platforms:['twitter','instagram','facebook'],status:'pending',submitted:'2025-04-03 16:44'},
-      {id:4,text:'We are proud to support Earth Day 2025. Here is how our team walks the talk. #LifeBetterLived',platforms:['linkedin'],status:'rejected',submitted:'2025-04-02 10:20'},
+      {id:1,text:'Spring wellness campaign is LIVE! Join us for daily walks and win amazing prizes. #AIAWalkWithUs #LifeBetterLived',platforms:['instagram','facebook'],status:'approved',submitted:'2025-04-01 09:12',approver:'Sarah K.',approvedAt:'2025-04-01 11:30',reason:''},
+      {id:2,text:'Click here to check out our latest events and be part of the movement! 🎉 #AIAWalkWithUs',platforms:['linkedin','twitter'],status:'pending',submitted:'2025-04-03 14:05',reason:''},
+      {id:3,text:'Big news dropping tomorrow — you do not want to miss this one. Stay tuned! #AIAWalkWithUs',platforms:['twitter','instagram','facebook'],status:'pending',submitted:'2025-04-03 16:44',reason:''},
+      {id:4,text:'We are proud to support Earth Day 2025. Here is how our team walks the talk. #LifeBetterLived',platforms:['linkedin'],status:'rejected',submitted:'2025-04-02 10:20',reason:'Needs stronger CTA and brand alignment before posting.',approver:'James T.',reviewedAt:'2025-04-02 15:00'},
     ];
-    allHistory=generateMockHistory(10000);
-    dataReady=true;
+    const mhItems=[];
+    for(let i=0;i<200;i++){
+      const s=Math.random()<0.7?'approved':'rejected';
+      const item={id:2000+i,text:randText(),platforms:randPlats(),status:s,submitted:randDate(90),submittedBy:'Staff member',reason:s==='rejected'?'Does not align with current campaign guidelines.':'',approver:'Management',reviewedAt:randDate(88)};
+      mhItems.push(item);
+      if(s==='approved'&&Math.random()<0.6){
+        myHistory.push({id:3000+i,text:item.text,platforms:item.platforms,status:'posted',submitted:item.submitted,postedAt:randDate(86)});
+      }
+    }
+    mgmtHistory=mhItems;
     document.getElementById('dstatus-dot').className='data-dot ready';
-    document.getElementById('dstatus-txt').textContent='10,000 records loaded';
-    document.getElementById('data-info').textContent=`Data loaded once on startup and cached in memory. Showing ${PAGE_SIZE} records at a time — use search or filter to narrow results. Total: ${allHistory.length.toLocaleString()} posts.`;
-    updateBadge();
-    if(document.getElementById('page-queue').classList.contains('active')) renderQueue();
-    if(document.getElementById('page-history').classList.contains('active')) renderHistory();
-  },2000);
+    document.getElementById('dstatus-txt').textContent='Data ready';
+    document.getElementById('data-info-h').textContent=`Showing your published posts. ${myHistory.length.toLocaleString()} records loaded — paginated ${PAGE_SIZE} at a time.`;
+    document.getElementById('data-info-mh').textContent=`All management decisions. ${mgmtHistory.length.toLocaleString()} records loaded — use search or filter to narrow down.`;
+    updateBadges();
+    const active=document.querySelector('.page.active');
+    if(active){
+      const id=active.id.replace('page-','');
+      if(id==='queue') renderQueue();
+      if(id==='history') renderMyHistory();
+      if(id==='submissions') renderSubmissions();
+      if(id==='mgmt-history') renderMgmtHistory();
+    }
+  },1800);
 }
 
-function getPlatform(id){return PLATFORMS.find(p=>p.id===id)}
-
 function renderPlatRow(){
-  const el=document.getElementById('plat-row');
-  el.innerHTML=PLATFORMS.map(p=>`
+  document.getElementById('plat-row').innerHTML=PLATFORMS.map(p=>`
     <div class="plat-chip" id="chip-${p.id}" onclick="togglePlat('${p.id}')">
       <div class="pdot" style="background:${p.color}"></div>${p.name}
     </div>`).join('');
 }
 function togglePlat(id){
-  if(selectedPlats.has(id)) selectedPlats.delete(id);
-  else selectedPlats.add(id);
+  if(selectedPlats.has(id)) selectedPlats.delete(id); else selectedPlats.add(id);
   document.getElementById('chip-'+id).classList.toggle('on',selectedPlats.has(id));
 }
-
 function renderTemplates(){
   document.getElementById('tpl-list').innerHTML=TEMPLATES.map((t,i)=>`
     <div class="tpl-item" onclick="applyTemplate(${i})">
       <div class="tpl-label">${t.label}</div>
-      <div class="tpl-preview">${t.text.length>80?t.text.slice(0,80)+'…':t.text}</div>
+      <div class="tpl-preview">${t.text.length>75?t.text.slice(0,75)+'…':t.text}</div>
     </div>`).join('');
-  document.getElementById('qtags').innerHTML=QUICK_TAGS.map(tag=>`
-    <div class="qtag" onclick="appendTag('${tag}')">${tag}</div>`).join('');
+  document.getElementById('qtags').innerHTML=QUICK_TAGS.map(tag=>`<div class="qtag" onclick="appendTag('${tag}')">${tag}</div>`).join('');
 }
-
-function applyTemplate(i){
-  const ta=document.getElementById('ptxt');
-  const tpl=TEMPLATES[i];
-  ta.value=tpl.text;
-  onType();
-  showToast('✦','Template applied');
-}
-function appendTag(tag){
-  const ta=document.getElementById('ptxt');
-  const cur=ta.value;
-  ta.value=cur+(cur&&!cur.endsWith(' ')?' ':'')+tag;
-  onType();ta.focus();
-}
-function onType(){
-  const len=document.getElementById('ptxt').value.length;
-  const cc=document.getElementById('cc');
-  cc.textContent=`${len} / 280`;
-  cc.className='char-c'+(len>260?' warn':'');
-}
+function applyTemplate(i){const ta=document.getElementById('ptxt');ta.value=TEMPLATES[i].text;onType();showToast('✦','Template applied')}
+function appendTag(tag){const ta=document.getElementById('ptxt');const cur=ta.value;ta.value=cur+(cur&&!cur.endsWith(' ')?' ':'')+tag;onType();ta.focus()}
+function onType(){const l=document.getElementById('ptxt').value.length;const c=document.getElementById('cc');c.textContent=`${l} / 280`;c.className='char-c'+(l>260?' warn':'')}
 
 function submitPost(){
   const text=document.getElementById('ptxt').value.trim();
-  if(!text){showToast('!','Please write some content first.');return;}
-  if(selectedPlats.size===0){showToast('!','Select at least one platform.');return;}
-  const p={id:Date.now(),text,platforms:[...selectedPlats],status:'pending',submitted:new Date().toLocaleString()};
+  if(!text){showToast('!','Please write some content first.');return}
+  if(selectedPlats.size===0){showToast('!','Select at least one platform.');return}
+  const p={id:Date.now(),text,platforms:[...selectedPlats],status:'pending',submitted:new Date().toLocaleString(),reason:''};
   queuePosts.unshift(p);
   document.getElementById('ptxt').value='';
   selectedPlats.clear();
   document.querySelectorAll('.plat-chip').forEach(c=>c.classList.remove('on'));
-  onType();
-  updateBadge();
+  onType();updateBadges();
   showToast('✓','Sent for management approval');
   setTimeout(()=>nav('queue'),900);
 }
 
-let curQSeg='all';
-function setQSeg(seg,el){
-  curQSeg=seg;
-  document.querySelectorAll('.seg').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  renderQueue();
-}
+/* MY QUEUE */
+function setQSeg(seg,el){curQSeg=seg;document.querySelectorAll('#page-queue .seg').forEach(s=>s.classList.remove('active'));el.classList.add('active');renderQueue()}
 function renderQueue(){
   const el=document.getElementById('queue-list');
-  if(!dataReady&&queuePosts.length===0){el.innerHTML='<div class="empty">Loading...</div>';return;}
   let items=queuePosts;
   if(curQSeg!=='all') items=items.filter(p=>p.status===curQSeg);
-  if(items.length===0){el.innerHTML='<div class="empty">No posts in this category.</div>';return;}
-  el.innerHTML=items.map(p=>{
-    const plats=p.platforms.map(id=>{const pl=getPlatform(id);return pl?`<span class="plat-pill"><div class="pp-dot" style="background:${pl.color}"></div>${pl.name}</span>`:''}).join('');
-    const badge={pending:`<span class="sbadge pending"><span class="sd"></span>Sent for approval</span>`,approved:`<span class="sbadge approved"><span class="sd"></span>Approved</span>`,rejected:`<span class="sbadge rejected"><span class="sd"></span>Rejected</span>`}[p.status];
-    let actions='';
-    if(p.status==='approved'){
-      actions=`<div class="post-actions"><button class="act-btn go" onclick="postNow(${p.id})">Publish now</button><span style="font-size:11px;color:var(--color-text-secondary)">Approved by ${p.approver||'management'} · ${p.approvedAt||''}</span></div>`;
-    }else if(p.status==='pending'){
-      actions=`<div class="post-actions"><span style="font-size:12px;color:var(--color-text-secondary)">Awaiting management review — no action needed yet.</span></div>`;
-    }else{
-      actions=`<div class="post-actions"><span style="font-size:12px;color:var(--color-text-secondary)">This post was not approved. You may edit and resubmit.</span></div>`;
+  if(!items.length){el.innerHTML='<div class="empty">No posts here.</div>';return}
+  el.innerHTML=items.map(p=>postCardHtml(p,'staff')).join('');
+}
+
+/* SUBMISSIONS (management) */
+function setSSeg(seg,el){curSSeg=seg;document.querySelectorAll('#page-submissions .seg').forEach(s=>s.classList.remove('active'));el.classList.add('active');renderSubmissions()}
+function renderSubmissions(){
+  const el=document.getElementById('sub-list');
+  const items=queuePosts.filter(p=>p.status===curSSeg);
+  if(!items.length){el.innerHTML=`<div class="empty">No ${curSSeg} submissions.</div>`;return}
+  el.innerHTML=items.map(p=>postCardHtml(p,'mgmt')).join('');
+}
+
+function postCardHtml(p,role){
+  const plats=p.platforms.map(id=>{const pl=getPlatform(id);return pl?`<span class="plat-pill"><div class="pp-dot" style="background:${pl.color}"></div>${pl.name}</span>`:''}).join('');
+  const badgeMap={pending:`<span class="sbadge pending"><span class="sd"></span>Pending review</span>`,approved:`<span class="sbadge approved"><span class="sd"></span>Approved</span>`,rejected:`<span class="sbadge rejected"><span class="sd"></span>Rejected</span>`};
+  let actions='';
+  if(role==='mgmt'){
+    if(p.status==='pending'){
+      actions=`<div class="post-actions">
+        <button class="act-btn approve" onclick="approvePost(${p.id})">Approve</button>
+        <button class="act-btn reject" onclick="openRejectModal(${p.id})">Reject</button>
+      </div>`;
+    } else if(p.status==='approved'){
+      actions=`<div class="post-actions"><span class="act-note">Approved by ${p.approver||'you'} · ${p.approvedAt||''}</span></div>`;
+    } else {
+      actions=`<div class="post-actions"><span class="act-note">Rejected · ${p.reason?'"'+p.reason+'"':'No reason given'}</span></div>`;
     }
-    return `<div class="post-card" id="pc-${p.id}">
-      <div class="post-card-top"><div class="plats-row">${plats}</div>${badge}</div>
-      <div class="post-text">${p.text}</div>
-      <div class="post-meta">Submitted · ${p.submitted}</div>
-      ${actions}
-    </div>`;
-  }).join('');
+  } else {
+    if(p.status==='pending'){
+      actions=`<div class="post-actions"><span class="act-note">Awaiting management review — no action needed.</span></div>`;
+    } else if(p.status==='approved'){
+      actions=`<div class="post-actions">
+        <button class="act-btn post" onclick="postNow(${p.id})">Publish now</button>
+        <span class="act-note">Approved by ${p.approver||'management'} · ${p.approvedAt||''}</span>
+      </div>`;
+    } else {
+      const note=p.reason?`Reason: "${p.reason}"`:'No reason provided.';
+      actions=`<div class="post-actions"><span class="act-note" style="color:var(--red-t)">${note}</span></div>`;
+    }
+  }
+  return `<div class="post-card" id="pc-${p.id}">
+    <div class="post-card-top"><div class="plats-row">${plats}</div>${badgeMap[p.status]}</div>
+    <div class="post-text">${p.text}</div>
+    <div class="post-meta">Submitted · ${p.submitted}</div>
+    ${actions}
+  </div>`;
+}
+
+function approvePost(id){
+  const p=queuePosts.find(x=>x.id===id);if(!p) return;
+  p.status='approved';p.approver='You (management)';p.approvedAt=new Date().toLocaleString();
+  mgmtHistory.unshift({id:p.id,text:p.text,platforms:p.platforms,status:'approved',submitted:p.submitted,submittedBy:'Staff',reason:'',approver:'You',reviewedAt:new Date().toLocaleString()});
+  updateBadges();renderSubmissions();renderQueue();
+  showToast('✓','Post approved — staff can now publish it');
+}
+
+function openRejectModal(id){pendingRejectId=id;document.getElementById('reject-reason').value='';document.getElementById('reject-modal').style.display='flex'}
+function closeRejectModal(){document.getElementById('reject-modal').style.display='none';pendingRejectId=null}
+function confirmReject(){
+  const reason=document.getElementById('reject-reason').value.trim();
+  const p=queuePosts.find(x=>x.id===pendingRejectId);if(!p){closeRejectModal();return}
+  p.status='rejected';p.reason=reason;p.approver='You (management)';p.reviewedAt=new Date().toLocaleString();
+  mgmtHistory.unshift({id:p.id,text:p.text,platforms:p.platforms,status:'rejected',submitted:p.submitted,submittedBy:'Staff',reason,approver:'You',reviewedAt:new Date().toLocaleString()});
+  closeRejectModal();updateBadges();renderSubmissions();renderQueue();
+  showToast('✕','Post rejected');
 }
 
 function postNow(id){
-  const idx=queuePosts.findIndex(p=>p.id===id);
-  if(idx===-1) return;
+  const idx=queuePosts.findIndex(p=>p.id===id);if(idx===-1) return;
   const p=queuePosts[idx];
-  allHistory.unshift({id:p.id,text:p.text,platforms:p.platforms,status:'posted',submitted:p.submitted,postedAt:new Date().toLocaleString()});
+  myHistory.unshift({id:p.id,text:p.text,platforms:p.platforms,status:'posted',submitted:p.submitted,postedAt:new Date().toLocaleString()});
   queuePosts.splice(idx,1);
-  updateBadge();
-  renderQueue();
-  showToast('✓','Post published successfully!');
+  updateBadges();renderQueue();renderMyHistory();
+  showToast('✓','Post published!');
 }
 
-function updateBadge(){
-  const count=queuePosts.length;
-  const b=document.getElementById('q-badge');
-  b.style.display=count?'inline-block':'none';
-  b.textContent=count;
-}
-
-let histPage=0;
-function getFilteredHistory(){
-  const f=document.getElementById('hist-filter').value;
+/* MY HISTORY */
+function getFilteredMyHistory(){
   const q=document.getElementById('hist-search').value.toLowerCase().trim();
-  return allHistory.filter(h=>{
+  return myHistory.filter(h=>!q||h.text.toLowerCase().includes(q));
+}
+function renderMyHistory(){
+  histPage=0;
+  const f=getFilteredMyHistory();
+  document.getElementById('hist-count').textContent=`${f.length.toLocaleString()} posts`;
+  document.getElementById('hist-list').innerHTML=f.slice(0,PAGE_SIZE).map(h=>histItemHtml(h,'posted')).join('');
+  document.getElementById('lm-hist').style.display=f.length>PAGE_SIZE?'block':'none';
+  histPage=1;
+}
+function loadMoreHist(){
+  const f=getFilteredMyHistory();
+  const slice=f.slice(histPage*PAGE_SIZE,(histPage+1)*PAGE_SIZE);
+  document.getElementById('hist-list').insertAdjacentHTML('beforeend',slice.map(h=>histItemHtml(h,'posted')).join(''));
+  histPage++;
+  if(histPage*PAGE_SIZE>=f.length) document.getElementById('lm-hist').style.display='none';
+}
+
+/* MGMT HISTORY */
+function getFilteredMgmtHistory(){
+  const f=document.getElementById('mh-filter').value;
+  const q=document.getElementById('mh-search').value.toLowerCase().trim();
+  return mgmtHistory.filter(h=>{
     if(f!=='all'&&h.status!==f) return false;
-    if(q&&!h.text.toLowerCase().includes(q)&&!h.platforms.join('').includes(q)) return false;
+    if(q&&!h.text.toLowerCase().includes(q)) return false;
     return true;
   });
 }
-function renderHistory(){
-  histPage=0;
-  const filtered=getFilteredHistory();
-  document.getElementById('hist-count').textContent=`${filtered.length.toLocaleString()} results`;
-  const slice=filtered.slice(0,PAGE_SIZE);
-  document.getElementById('hist-list').innerHTML=slice.map(histItemHtml).join('');
-  document.getElementById('load-more-btn').style.display=filtered.length>PAGE_SIZE?'block':'none';
-  histPage=1;
+function renderMgmtHistory(){
+  mhPage=0;
+  const f=getFilteredMgmtHistory();
+  document.getElementById('mh-count').textContent=`${f.length.toLocaleString()} records`;
+  document.getElementById('mh-list').innerHTML=f.slice(0,PAGE_SIZE).map(h=>histItemHtml(h,'mgmt')).join('');
+  document.getElementById('lm-mh').style.display=f.length>PAGE_SIZE?'block':'none';
+  mhPage=1;
 }
-function loadMore(){
-  const filtered=getFilteredHistory();
-  const start=histPage*PAGE_SIZE;
-  const slice=filtered.slice(start,start+PAGE_SIZE);
-  document.getElementById('hist-list').insertAdjacentHTML('beforeend',slice.map(histItemHtml).join(''));
-  histPage++;
-  if(histPage*PAGE_SIZE>=filtered.length) document.getElementById('load-more-btn').style.display='none';
+function loadMoreMH(){
+  const f=getFilteredMgmtHistory();
+  const slice=f.slice(mhPage*PAGE_SIZE,(mhPage+1)*PAGE_SIZE);
+  document.getElementById('mh-list').insertAdjacentHTML('beforeend',slice.map(h=>histItemHtml(h,'mgmt')).join(''));
+  mhPage++;
+  if(mhPage*PAGE_SIZE>=f.length) document.getElementById('lm-mh').style.display='none';
 }
-function histItemHtml(h){
+
+function histItemHtml(h,role){
   const plats=h.platforms.map(id=>{const pl=getPlatform(id);return pl?`<span class="plat-pill"><div class="pp-dot" style="background:${pl.color}"></div>${pl.name}</span>`:''}).join('');
-  const badge=h.status==='posted'?`<span class="sbadge approved"><span class="sd"></span>Posted</span>`:`<span class="sbadge rejected"><span class="sd"></span>Rejected</span>`;
-  const icon=h.status==='posted'?'✓':'✕';
-  const meta=h.status==='posted'?`Published ${h.postedAt}`:`Submitted ${h.submitted}`;
+  const iconClass={posted:'posted',approved:'approved',rejected:'rejected'}[h.status]||'posted';
+  const icon={posted:'▶',approved:'✓',rejected:'✕'}[h.status]||'✓';
+  const badge={posted:`<span class="sbadge posted"><span class="sd"></span>Published</span>`,approved:`<span class="sbadge approved"><span class="sd"></span>Approved</span>`,rejected:`<span class="sbadge rejected"><span class="sd"></span>Rejected</span>`}[h.status];
+  const meta=h.status==='posted'?`Published ${h.postedAt}`:h.status==='approved'?`Approved ${h.reviewedAt}`:`Rejected ${h.reviewedAt}${h.reason?' · "'+h.reason+'"':''}`;
   return `<div class="hist-item">
-    <div class="hist-icon ${h.status}">${icon}</div>
+    <div class="hist-icon ${iconClass}">${icon}</div>
     <div class="hist-body">
       <div class="hist-text">${h.text}</div>
       <div class="hist-row">${plats}${badge}<span class="hist-date">${meta}</span></div>
@@ -447,26 +525,31 @@ function histItemHtml(h){
   </div>`;
 }
 
+function updateBadges(){
+  const pending=queuePosts.filter(p=>p.status==='pending').length;
+  const myActive=queuePosts.length;
+  const qb=document.getElementById('q-badge');
+  qb.style.display=myActive?'inline-block':'none';qb.textContent=myActive;
+  const sb=document.getElementById('s-badge');
+  sb.style.display=pending?'inline-block':'none';sb.textContent=pending;
+}
+
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===page));
   if(page==='queue') renderQueue();
-  if(page==='history') renderHistory();
+  if(page==='history') renderMyHistory();
+  if(page==='submissions') renderSubmissions();
+  if(page==='mgmt-history') renderMgmtHistory();
 }
 
 let toastT;
 function showToast(icon,msg){
-  document.getElementById('t-icon').textContent=icon;
-  document.getElementById('t-msg').textContent=msg;
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  clearTimeout(toastT);
+  document.getElementById('t-icon').textContent=icon;document.getElementById('t-msg').textContent=msg;
+  const t=document.getElementById('toast');t.classList.add('show');clearTimeout(toastT);
   toastT=setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-renderPlatRow();
-renderTemplates();
-updateBadge();
-bootData();
+renderPlatRow();renderTemplates();updateBadges();bootData();
 </script>
